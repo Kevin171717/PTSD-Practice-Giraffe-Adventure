@@ -29,8 +29,11 @@ public:
 
     // TODO: Implement the collision detection
     [[nodiscard]] bool IfCollides(const std::shared_ptr<Character>& other) const {
-        (void) other;
-        return false;
+        auto thisPosition = GetPosition();
+        auto otherPosition = other->GetPosition();
+        bool collitionx = thisPosition.x < otherPosition.x + thisPosition.r && thisPosition.x + thisPosition.r >otherPosition.x;
+        bool collitiony = thisPosition.y < otherPosition.y + thisPosition.s && thisPosition.y + thisPosition.s >otherPosition.y;
+        return collitionx && collitiony;
     }
 
     // TODO: Add and implement more methods and properties as needed to finish Giraffe Adventure.

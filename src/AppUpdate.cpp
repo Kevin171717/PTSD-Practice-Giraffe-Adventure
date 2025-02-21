@@ -15,6 +15,39 @@ void App::Update() {
     if (Util::Input::IsKeyPressed(Util::Keycode::ESCAPE) || Util::Input::IfExit()) {
         m_CurrentState = State::END;
     }
+    if (Util::Input::IsKeyPressed(Util::Keycode::W)) {
+        float x = m_Giraffe->GetPosition().x;
+        float y = m_Giraffe->GetPosition().y+10;
+        m_Giraffe->SetPosition({x, y});
+    }
+    if (Util::Input::IsKeyPressed(Util::Keycode::S)) {
+        float x = m_Giraffe->GetPosition().x;
+        float y = m_Giraffe->GetPosition().y-10;
+        m_Giraffe->SetPosition({x, y});
+    }
+    if (Util::Input::IsKeyPressed(Util::Keycode::A)) {
+        float x = m_Giraffe->GetPosition().x-10;
+        float y = m_Giraffe->GetPosition().y;
+        m_Giraffe->SetPosition({x, y});
+    }
+    if (Util::Input::IsKeyPressed(Util::Keycode::D)) {
+        float x = m_Giraffe->GetPosition().x+10;
+        float y = m_Giraffe->GetPosition().y;
+        m_Giraffe->SetPosition({x, y});
+    }
+
+    if (m_Phase == Phase::COLLIDE_DETECTION) {
+        m_Giraffe->IfCollides(m_Chest)?m_Chest->SetVisible(false):m_Chest->SetVisible(true);
+    }
+    if (m_Phase == Phase::OPEN_THE_DOORS) {
+        for (auto &door : m_Doors) {
+            m_Giraffe->IfCollides(door)?door->SetImage(GA_RESOURCE_DIR"/Image/Character/door_open.png"):door->SetImage(GA_RESOURCE_DIR"/Image/Character/door_close.png");
+        }
+    }
+    if (m_Phase == Phase::COUNTDOWN) {
+        m_Ball->SetVisible(true);
+        m_Ball->SetLooping(false);
+    }
 
     if (m_EnterDown) {
         if (!Util::Input::IsKeyPressed(Util::Keycode::RETURN)) {
